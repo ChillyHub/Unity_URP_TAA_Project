@@ -1,4 +1,0 @@
-repository "Unity_URP_TAA_Project@chilyhub@cloud.cn"
-  path "/"
-    br "/main"
-    co "/main"
