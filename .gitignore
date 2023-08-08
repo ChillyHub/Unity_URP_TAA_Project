@@ -24,9 +24,9 @@
 /Unity_URP_TAA_Project/[Aa]ssets/Plugins/Editor/JetBrains*
 
 # Visual Studio cache directory
-/Unity_URP_TAA_Project/vs/
-/Unity_URP_TAA_Project/idea/
-/Unity_URP_TAA_Project/plastic/
+/Unity_URP_TAA_Project/.vs/
+/Unity_URP_TAA_Project/.idea/
+/Unity_URP_TAA_Project/.plastic/
 
 # Gradle cache directory
 /Unity_URP_TAA_Project/gradle/
