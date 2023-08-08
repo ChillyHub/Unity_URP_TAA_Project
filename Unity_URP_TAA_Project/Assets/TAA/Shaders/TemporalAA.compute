@@ -1,0 +1,52 @@
+#pragma kernel MotionVectorCSMain
+#pragma kernel ReprojectionCSMain
+#pragma kernel MotionBlurCSMain
+
+#pragma multi_compile_local __ _ENABLE_YCOCG
+#pragma multi_compile_local __ _ENABLE_SAMPLE_CLOSEST_MOTION_VECTOR
+#pragma multi_compile_local __ _BLEND_FIXED _BLEND_MOTION _BLEND_LUMINANCE _BLEND_MOTION_LUMINANCE
+
+RWTexture2D<float4> _MotionVectorTargetTexture;
+RWTexture2D<float4> _ReprojectionTargetTexture;
+RWTexture2D<float4> _MotionBlurTargetTexture;
+
+float _MotionVectorTargetWidth;
+float _MotionVectorTargetHeight;
+float _ReprojectionTargetWidth;
+float _ReprojectionTargetHeight;
+float _MotionBlurTargetWidth;
+float _MotionBlurTargetHeight;
+
+#include "MotionVectorPass.hlsl"
+#include "ReprojectionPass.hlsl"
+#include "MotionBlurPass.hlsl"
+
+float2 GetUV(uint3 id, float width, float height)
+{
+    return float2(((float)id.x + 0.5) / width, ((float)id.y + 0.5) / height);
+}
+
+[numthreads(8,8,1)]
+void MotionVectorCSMain(uint3 id : SV_DispatchThreadID)
+{
+    float2 currUV = GetUV(id, _MotionVectorTargetWidth, _MotionVectorTargetHeight) -
+        _JitterUV.xy * rcp(_ScaledScreenParams.xy);
+
+    _MotionVectorTargetTexture[id.xy] = StaticMotionVectorCSPass(currUV);
+}
+
+[numthreads(8,8,1)]
+void ReprojectionCSMain(uint3 id : SV_DispatchThreadID)
+{
+    float2 currUV = GetUV(id, _ReprojectionTargetWidth, _ReprojectionTargetHeight);
+
+    _ReprojectionTargetTexture[id.xy] = ReprojectionPass(currUV);
+}
+
+[numthreads(8,8,1)]
+void MotionBlurCSMain(uint3 id : SV_DispatchThreadID)
+{
+    float2 currUV = GetUV(id, _MotionBlurTargetWidth, _MotionBlurTargetHeight);
+
+    _MotionBlurTargetTexture[id.xy] = MotionBlurPass(currUV);
+}
