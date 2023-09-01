@@ -28,6 +28,7 @@ https://github.com/ChillyHub/Unity_URP_TAA_Project/assets/75598757/77fa81ff-7d3a
 
 ### 参考引用
 
+[GDC:  Temporal Reprojection Anti-Aliasing in INSIDE]: 
+
 [Anti-Aliasing Methods in CryENGINE 3]: http://iryoku.com/aacourse/downloads/13-Anti-Aliasing-Methods-in-CryENGINE-3.pdf
 [High Quality Temporal Supersampling]: https://de45xmedrsdbp.cloudfront.net/Resources/files/TemporalAA_small-59732822.pdf
-
