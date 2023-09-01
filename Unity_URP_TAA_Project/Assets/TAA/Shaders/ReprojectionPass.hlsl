@@ -104,7 +104,7 @@ half3 ClipBoxColor(half3 sourceColor, half3 minColor, half3 maxColor)
     return res;
 }
 
-float GetBlendWeight(half3 colorA, half3 colorB, float2 motionVector)
+float GetBlendWeight(half3 colorA, half3 colorB, float2 motionVector, float2 textureSize)
 {
     #if _BLEND_FIXED
         return _FixedBlendWeight;
@@ -113,7 +113,7 @@ float GetBlendWeight(half3 colorA, half3 colorB, float2 motionVector)
     float weight = 0.0;
     
     #if _BLEND_MOTION || _BLEND_MOTION_LUMINANCE
-        weight += saturate(length(motionVector));
+        weight += saturate(length(motionVector) * textureSize);
     #endif
     
     #if _BLEND_LUMINANCE || _BLEND_MOTION_LUMINANCE
@@ -158,7 +158,7 @@ half4 ReprojectionPass(float2 currUV)
     historyColor = ClipBoxColor(historyColor, minVar, maxVar);
 
     half3 blendColor = lerp(historyColor, currentColor,
-        GetBlendWeight(historyColor, currentColor, motionVector));
+        GetBlendWeight(historyColor, currentColor, motionVector, _CurrentFrameTexture_TexelSize.zw));
 
     return half4(ResolveColor(blendColor), 1.0);
 }

@@ -66,7 +66,7 @@ MonoBehaviour:
   m_Name: TemporalAARendererFeature
   m_EditorClassIdentifier: 
   m_Active: 1
-  computeShader: {fileID: 0}
+  computeShader: {fileID: 7200000, guid: 44146cbc379f6284292505741c7bd04c, type: 3}
   advanceSetting:
     sampleType: 9
     enableClosest: 1
